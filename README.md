@@ -7,7 +7,6 @@ Reseptisovelluksella käyttäjä voi hakea tietokantaan lisättyjä reseptejä. 
 Kuka tahansa pystyy...
 - rekisteröidä uuden käyttäjän
 - kirjautua sisään jo olemassa olevalla käyttäjällä
-- kirjautua ulos käyttäjältä
 - hakea reseptejä...
   - reseptin nimen perusteella
   - ainesosan perusteella
@@ -20,6 +19,7 @@ Kuka tahansa pystyy...
   
 Kirjautunut käyttäjä pystyy...
 - lisätä uuden reseptin
+- kirjautua ulos käyttäjältä
 
 Ylläpitäjä pystyy...
-- poistaa reseptin sivustolta
+- poistamaan reseptin sivustolta
