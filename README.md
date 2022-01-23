@@ -20,6 +20,12 @@ Kuka tahansa pystyy...
 Kirjautunut käyttäjä pystyy...
 - lisätä uuden reseptin
 - kirjautua ulos käyttäjältä
+- kommentoimaan muita reseptejä
+- arvostelemaan reseptejä asteikolla 1-5
+- lisätä reseptejä omiin suosikkeihin
+- pystyy muokata omia reseptejä
 
 Ylläpitäjä pystyy...
 - poistamaan reseptin sivustolta
+- poistamaan kommentteja
+- pystyy poistamaan käyttäjiä
