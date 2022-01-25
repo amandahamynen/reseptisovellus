@@ -1,2 +1,71 @@
-<title>Reseptisovellus</title>
-<h1>Testi</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Reseptisovellus</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/container.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+        <script 
+            src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" 
+            integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    </head>
+
+    <body>
+
+    <div class="ui vertical masthead center aligned segment" id="bg">
+
+        <div class="ui large secondary pointing menu" id="menu">
+          <a class="active item" href="/">
+            Etusivu
+          </a>
+          <div class="right menu">
+            <a class="ui item">
+              Kirjaudu sisään
+            </a>
+            <a class="ui item">
+              Rekisteröidy
+            </a>
+          </div>
+        </div>
+
+        <div class="ui text container" id="bg_text">
+          <p>
+          <p>
+          <h1 class="ui header" id="title">
+            RESEPTISOVELLUS
+          </h1>
+          <div class="ui icon input">
+            <input type="text" placeholder="Search...">
+            <i class="search icon"></i>
+          </div>
+        </div>
+
+    </div>
+
+    <div class="ui vertical stripe segment" id="text_segment">
+        <div class="ui middle aligned stackable grid container">
+          <div class="row">
+            <div class="eight wide column">
+              <h2 class="ui header"> <i class="utensils icon"></i>Etsi ja löydä reseptejä</h2>
+              <p>Voit hakea reseptejä esimerkiksi reseptin nimen tai ainesosan perusteella!</p>
+              <h2 class="ui header"><i class="utensil spoon icon"></i>Lisää reseptejä</h2>
+              <p>Rekisteröidy ja kirjaudu sisään, jotta voit lisätä reseptejä!</p>
+              <h2 class="ui header"><i class="heart icon"></i>Ja paljon muuta!</h2>
+              <p>Kirjautuneena käyttäjänä pystyt lisäämään reseptejä suosikkeihisi, jotta löydät ne helposti myöhemmin! Lisäksi voit kommentoida muiden käyttäjien reseptejä ja antaa niille arvostelun!</p>
+            </div>
+            <div class="six wide right floated column">
+              <!-- <img src="../static/images/" class="ui large bordered rounded image"> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </body>
+
+</html>
