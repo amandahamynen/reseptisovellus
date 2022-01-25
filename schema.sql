@@ -1,0 +1,8 @@
+DROP TABLE users CASCADE;
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT,
+  admin BOOLEAN
+);
