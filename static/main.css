@@ -10,7 +10,7 @@
     padding: 0.3em 2em;
 }
 #bg{
-    height: 100vh;
+    height: 65vh;
     width: 100%;
     background-image: url(images/bg-photo.jpg);
     background-position: center;
@@ -21,7 +21,7 @@
     color: white;
     font-weight: bold;
     position: absolute;
-    top: 35%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
@@ -32,7 +32,7 @@
 }
 #title{
     color: #ffffff; 
-    font-size: 62px; 
+    font-size: 70px; 
     font-weight: 800; 
     line-height: 72px; 
     margin: 0 0 24px; 
