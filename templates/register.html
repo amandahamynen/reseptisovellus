@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Reseptisovellus</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/container.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+        <script 
+            src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" 
+            integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    </head>
+
+    <body>
+
+    <div class="ui vertical masthead center aligned segment">
+
+        <div class="ui large secondary pointing menu" id="menu">
+          <a class="active item" href="/">
+            Etusivu
+          </a>
+          <div class="right menu">
+            <a class="ui item" href="/login">
+              Kirjaudu sisään
+            </a>
+            <a class="ui item" href="/register">
+              Rekisteröidy
+            </a>
+          </div>
+        </div>
+
+        <div class="ui text container" id="text_segment">
+            <div class="ui middle aligned center aligned grid">
+                <div class="column">
+                  <h2 class="ui orange image header">
+                    <i class="key icon"></i>
+                    <div class="content">
+                      Rekisteröi uusi käyttäjä
+                    </div>
+                  </h2>
+                  <form class="ui large form">
+                    <div class="ui stacked segment">
+                      <div class="field">
+                        <div class="ui left icon input">
+                          <i class="user icon"></i>
+                          <input type="text" name="username" placeholder="Käyttäjänimi">
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui left icon input">
+                          <i class="lock icon"></i>
+                          <input type="password" name="password" placeholder="Salasana">
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui left icon input">
+                          <i class="lock icon"></i>
+                          <input type="password" name="re_password" placeholder="Syötä salasana uudelleen">
+                        </div>
+                      </div>
+                      <div class="ui fluid large orange submit button">Rekisteröi</div>
+                    </div>
+              
+                    <div class="ui error message"></div>
+              
+                  </form>
+              
+                  <div class="ui message">
+                    On jo olemassa käyttäjä? <a href="/login">Kirjaudu sisään!</a>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+    </div>
+
+    </body>
+
+</html>
