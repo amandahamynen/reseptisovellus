@@ -7,6 +7,11 @@
       <a class="active item" href="/">
         Etusivu
       </a>
+      {% if session.username %}
+      <a class="ui item" href="/new_recipe">
+        Lisää uusi resepti
+      </a>
+      {% endif %}
       <div class="right menu">
         {% if session.username %}
         <a class="ui item">
@@ -34,10 +39,13 @@
       <h1 class="ui header" id="title">
         RESEPTISOVELLUS
       </h1>
-      <div class="ui icon input">
-        <input type="text" placeholder="Search...">
-        <i class="search icon"></i>
-      </div>
+      <form action="/" method="POST">
+        <div class="ui icon input">
+          <input type="text" name="key" placeholder="Reseptin nimi">
+          <i class="search icon"></i>
+        </div>
+      </form>
+      
     </div>
 
 </div>
@@ -54,7 +62,6 @@
           <p>Kirjautuneena käyttäjänä pystyt lisäämään reseptejä suosikkeihisi, jotta löydät ne helposti myöhemmin! Lisäksi voit kommentoida muiden käyttäjien reseptejä ja antaa niille arvostelun!</p>
         </div>
         <div class="six wide right floated column">
-          <!-- <img src="../static/images/" class="ui large bordered rounded image"> -->
         </div>
       </div>
     </div>

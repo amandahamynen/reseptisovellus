@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block title %} <title>Lisää uusi resepti</title> {% endblock %}
+{% block content %}
+<div class="ui vertical masthead center aligned segment">
+    <div class="ui large secondary pointing menu" id="menu">
+        <a class="ui item" href="/">
+          Etusivu
+        </a>
+        {% if session.username %}
+        <a class="active item" href="/new_recipe">
+          Lisää uusi resepti
+        </a>
+        {% endif %}
+        <div class="right menu">
+          {% if session.username %}
+          <a class="ui item">
+            <i class="user icon"></i>
+            {{session.username}}
+          </a>
+          <a class="ui red button" href="/logout">
+            Kirjaudu ulos
+          </a>
+          {% endif %}
+          {% if not session.username %}
+          <a class="ui item" href="/login">
+            Kirjaudu sisään
+          </a>
+          <a class="ui item" href="/register">
+            Rekisteröidy
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+
+      <div class="ui raised text container segment">
+        <form class="ui form" action="/new_recipe" method="POST">
+          <h3 class="ui dividing header">Lisää uusi resepti</h4>
+            <div class="fields">
+              <div class="ten wide required field">
+                <label>Reseptin nimi</label>
+                <input type="text" name="recipe_name" placeholder="Reseptin nimi">
+              </div>
+              <div class="six wide required field">
+                <label>Tyyppi</label>
+                <div class="field">
+                  <select class="ui fluid search dropdown" name="recipe_type">
+                    <option value="" disabled selected>Tyyppi</option>
+                    <option value="maincourse">Pääruoka</option>
+                    <option value="desert">Jälkiruoka</option>
+                    <option value="other">Muu</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="required field">
+              <label>Ainesosat</label>
+              <textarea placeholder="Lisää eri ainesosat eri riveille" name="ingredients"></textarea>
+            </div>
+            <div class="field">
+              <label>Ohje</label>
+              <textarea name="description"></textarea>
+            </div>
+            <button class="ui button" type="submit">
+                Lisää resepti
+            </button>
+        </form>
+
+        {% if message %}
+          <div class="ui error message">Virhe: {{message}}</div>
+        {% endif %}
+
+      </div>
+</div>
+{% endblock %}

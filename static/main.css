@@ -43,3 +43,7 @@
 #text_segment{
     padding: 5em 0em;
 }
+#user_form{
+    padding: 5em 5em;
+    background-color: white;
+}
