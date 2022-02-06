@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import render_template, request, redirect
 from app import app
 from app import db
@@ -9,7 +8,7 @@ import recipe
 def index():
     if request.method == "POST":
         key = request.form.get("key")
-        if key == "":
+        if key == "" or key.strip() == "":
             return render_template("index.html")
         return redirect(f"/search/{key}")
     return render_template("index.html")

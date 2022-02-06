@@ -10,7 +10,7 @@
     padding: 0.3em 2em;
 }
 #bg{
-    height: 65vh;
+    height: 90%;
     width: 100%;
     background-image: url(images/bg-photo.jpg);
     background-position: center;
@@ -21,7 +21,7 @@
     color: white;
     font-weight: bold;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
