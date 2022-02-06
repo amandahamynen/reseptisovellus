@@ -1,6 +1,9 @@
 # Reseptisovellus
 Sovellus on toteutettu kurssilla Tietokantasovellus (kevät 2022)
 
+
+https://tsoha-reseptisovellus.herokuapp.com
+
 ## Sovelluksen alustava kuvaus
 Reseptisovelluksella käyttäjä voi hakea tietokantaan lisättyjä reseptejä. Jos käyttäjä haluaa lisätä tietokantaan itse reseptin, hänen tulee ensin rekisteröityä sovellukseen käyttäjätunnuksella ja salasanalla. Tämän jälkeen hän voi kirjautua kyseisellä tunnuksella sovellukseen, ja lisätä reseptejä. Sivustolla on lisäksi olemassa ylläpitäjä, joka pystyy poistamaan reseptejä.
 ### Ominaisuudet:
