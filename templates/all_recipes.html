@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% block title %} <title>Reseptisovellus</title> {% endblock %}
+{% block content %}
+<div class="ui vertical masthead center aligned segment">
+  <div class="ui large secondary pointing menu" id="menu">
+      <a class="ui item" href="/">
+        Etusivu
+      </a>
+      <a class="ui item" href="/all-recipes/alphabetically">
+        Kaikki reseptit
+      </a>
+      {% if session.username %}
+      <a class="ui item" href="/new_recipe">
+        Lisää uusi resepti
+      </a>
+      {% endif %}
+      <div class="right menu">
+        {% if session.username %}
+        <a class="ui item">
+          <i class="user icon"></i>
+          {{session.username}}
+        </a>
+        <a class="ui red button" href="/logout">
+          Kirjaudu ulos
+        </a>
+        {% endif %}
+        {% if not session.username %}
+        <a class="ui item" href="/login">
+          Kirjaudu sisään
+        </a>
+        <a class="ui item" href="/register">
+          Rekisteröidy
+        </a>
+        {% endif %}
+      </div>
+  </div>
+    <br>
+    <br>
+    <br>
+
+    <div class="ui grid" id="user_form">
+      <div class="four wide column" style="padding-left: 10em;">
+        <div class="ui vertical text menu">
+          <div class="header item">Järjestä</div>
+          <a class="item" href="/all-recipes/alphabetically">
+            Aakkosjärjestys
+          </a>
+          <a class="item" href="/all-recipes/newest">
+            Uusin ensin
+          </a>
+          <a class="item" href="/all-recipes/oldest">
+            Vanhin ensin
+          </a>
+          <br>
+          <div class="header item">Näytä</div>
+          <a class="item" href="/all-recipes/maincourse">
+            Pääruoat
+          </a>
+          <a class="item" href="/all-recipes/dessert">
+            Jälkiruoat
+          </a>
+          <a class="item" href="/all-recipes/other">
+            Muut
+          </a>
+        </div>
+      </div>
+      <div class="twelve wide column" style="padding-right: 10em;">
+        <div class="ui text container">
+          {% if recipes %}
+            {% for recipe in recipes %}
+            <div class="ui middle aligned divided list">
+              <div class="item">
+                <div class="right floated content">
+                  <div class="ui left labeled button" tabindex="0">
+                    <a class="ui basic right pointing label">
+                      0
+                    </a>
+                    {% if loggedIn %}
+                    <div class="ui button">
+                      <i class="red heart icon" onclick="functionToLike()"></i>
+                    {% else %}
+                    <div class="ui disabled button">
+                      <i class="heart icon"></i>
+                    {% endif %}
+                    </div>
+                  </div>
+                  {% if loggedIn %}
+                  <button class="ui icon button">
+                    <i class="star icon"></i>
+                  </button>
+                  {% endif %}
+                </div>
+                <div class="left floated content">
+                  <i class="utensils icon"></i>
+                  <a href="/recipe/{{ recipe.id }}">{{ recipe.recipe_name }}</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

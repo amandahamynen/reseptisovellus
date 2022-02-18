@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import render_template, request, redirect
 from app import app
 from app import db
@@ -84,4 +85,20 @@ def recipe_id(id):
     ingredients = recipe.get_ingredients(id)
     description = recipe.get_description(id)
     return render_template("recipe.html", id=id, recipe_name=recipe_name, ingredients=ingredients, description=description)
+
+@app.route("/all-recipes/<string:sortby>", methods=["GET", "POST"])
+def all_recipes(sortby):
+    if sortby == "alphabetically":
+        recipes = recipe.get_sorted_alphabetically()
+    if sortby == "newest":
+        recipes = recipe.get_sorted_newest()
+    if sortby == "oldest":
+        recipes = recipe.get_sorted_oldest()
+    if sortby == "maincourse":
+        recipes = recipe.get_maincourses()
+    if sortby == "dessert":
+        recipes = recipe.get_desserts()
+    if sortby == "other":
+        recipes = recipe.get_others()
+    return render_template("all_recipes.html", recipes=recipes, loggedIn=user.isLoggedIn())
     

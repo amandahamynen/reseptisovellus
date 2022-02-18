@@ -45,3 +45,39 @@ def get_description(id):
     result = db.session.execute(sql, {"id": id})
     description = result.fetchone()[0]
     return description
+
+def get_sorted_alphabetically():
+    sql = "SELECT * FROM recipes ORDER BY recipe_name"
+    result = db.session.execute(sql)
+    recipes = result.fetchall()
+    return recipes
+
+def get_sorted_newest():
+    sql = "SELECT * FROM recipes ORDER BY id"
+    result = db.session.execute(sql)
+    recipes = result.fetchall()
+    return recipes
+
+def get_sorted_oldest():
+    sql = "SELECT * FROM recipes ORDER BY id DESC"
+    result = db.session.execute(sql)
+    recipes = result.fetchall()
+    return recipes
+
+def get_maincourses():
+    sql = "SELECT * FROM recipes WHERE recipe_type='maincourse'"
+    result = db.session.execute(sql)
+    recipes = result.fetchall()
+    return recipes
+
+def get_desserts():
+    sql = "SELECT * FROM recipes WHERE recipe_type='dessert'"
+    result = db.session.execute(sql)
+    recipes = result.fetchall()
+    return recipes
+
+def get_others():
+    sql = "SELECT * FROM recipes WHERE recipe_type='other'"
+    result = db.session.execute(sql)
+    recipes = result.fetchall()
+    return recipes

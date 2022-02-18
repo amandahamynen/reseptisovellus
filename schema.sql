@@ -24,7 +24,7 @@ INSERT INTO recipes (
   description
 ) VALUES (
   'Mokkapalat',
-  'desert',
+  'dessert',
   '{3 kananmunaa, 3dl sokeria, 150g voita, 5dl vehnäjauhoja, 3rkl kaakaojauhetta, 2tl leivinjauhetta, 1tl vaniljasokeria, 2dl kahvia, 5rkl kuumaa kahvia, 5rkl margariinia, 4dl tomusokeria, 2tl vaniliinisokeria, 3rkl kaakaojauhetta}',
   'Katso ohje osoitteesta https://www.k-ruoka.fi/reseptit/mokkapalat'
 );
@@ -48,7 +48,7 @@ INSERT INTO recipes (
   description
 ) VALUES (
   'Pannari',
-  'desert',
+  'dessert',
   '{2 kananmunaa, 8dl maitoa, 4dl vehnäjauhoja, 1dl kauraleseitä, 1tl suolaa, 1rkl sokeria, 75g voita}',
   'Katso ohje osoitteesta https://www.valio.fi/reseptit/pannari-1/'
 );
@@ -60,7 +60,7 @@ INSERT INTO recipes (
   description
 ) VALUES (
   'Mangorahkapiirakka',
-  'desert',
+  'dessert',
   '{175g voita, 3dl vehnäjauhoja, 2dl sokeria, 1.5dl kookoshiutaleita, 2tl vaniljasokeria, 1tl leivinjauhetta, 2 kananmunaa, 1dl maitoa, 1tlk säilykeaprikoosia, 200g mango-passion rahkaa}',
   'Katso ohje osoitteesta https://www.valio.fi/reseptit/mangorahkapiirakka/'
 );
