@@ -153,3 +153,44 @@ def is_liked(recipe_id):
             return False
     except:
         return False
+
+def add_favourite(recipe_id):
+    try:
+        user_id = session["user_id"]
+
+        def check_if_already_in_table():
+            sql = "SELECT COUNT(*) FROM favourites WHERE user_id=:user_id AND recipe_id=:recipe_id AND visible=0"
+            result = db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id}).fetchone()[0]
+            return result
+
+        if check_if_already_in_table():
+            sql = "UPDATE favourites SET visible = 1 WHERE user_id=:user_id AND recipe_id=:recipe_id"
+        else:
+            sql = "INSERT INTO favourites (user_id, recipe_id, visible) VALUES (:user_id, :recipe_id, 1)"
+        db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id})
+        db.session.commit()
+        return True
+    except:
+        return False
+
+def remove_favourite(recipe_id):
+    try:
+        user_id = session["user_id"]
+        sql = "UPDATE favourites SET visible = 0 WHERE user_id=:user_id AND recipe_id=:recipe_id"
+        db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id})
+        db.session.commit()
+        return True
+    except:
+        return False
+
+def is_favourite(recipe_id):
+    try:
+        user_id = session["user_id"]
+        sql = "SELECT COUNT(*) FROM favourites WHERE user_id=:user_id AND recipe_id=:recipe_id AND visible=1"
+        result = db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id}).fetchone()[0]
+        if result:
+            return True
+        else:
+            return False
+    except:
+        return False

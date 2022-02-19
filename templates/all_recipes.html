@@ -14,6 +14,11 @@
         Lisää uusi resepti
       </a>
       {% endif %}
+      {% if session.username %}
+      <a class="ui item" href="/favourites">
+        Omat suosikit
+      </a>
+      {% endif %}
       <div class="right menu">
         {% if session.username %}
         <a class="ui item">
@@ -102,9 +107,23 @@
                     {% endif %}
                   </form>
                   {% if loggedIn %}
-                  <button class="ui icon button">
+                  {% if not check_favourite(recipe.id) %}
+                  <form action="/favourite" method="POST" style="display: inline;">
+                  <button class="ui icon button" type="submit">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                    <input type="hidden" name="recipe_id" value="{{recipe.id}}">
                     <i class="star icon"></i>
                   </button>
+                  </form>
+                  {% else %}
+                  <form action="/remove-favourite/1" method="POST" style="display: inline;">
+                  <button class="ui icon button" type="submit">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                    <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                    <i class="yellow star icon"></i>
+                  </button>
+                  </form>
+                  {% endif %}
                   {% endif %}
                 </div>
                 <div class="left floated content">

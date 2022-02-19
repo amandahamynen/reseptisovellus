@@ -14,6 +14,11 @@
         Lisää uusi resepti
       </a>
       {% endif %}
+      {% if session.username %}
+      <a class="ui item" href="/favourites">
+        Omat suosikit
+      </a>
+      {% endif %}
       <div class="right menu">
         {% if session.username %}
         <a class="ui item">

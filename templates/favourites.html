@@ -39,20 +39,35 @@
         {% endif %}
       </div>
     </div>
-    <br>
-    <br>
-    <br>
 
-    <div class="ui raised text container segment">
-      <h1 class="ui center aligned icon header">
-          {{ recipe_name }}
-      </h1>
-      {% for ingredient in ingredients %}
-      <p>{{ ingredient }}</p>
-      {% endfor %}
+    <div class="ui text container" id="user_form">
+      <h2 class="ui center aligned icon header">
+        <i class="circular yellow star icon"></i>
+        Omat suosikit
+      </h2>
       <br>
-      {{ description }}
-      
+      {% if favs %}
+        {% for recipe in favs %}
+        <div class="ui middle aligned divided list">
+          <div class="item">
+            <form action="/remove-favourite/2" method="POST" style="display: inline;">
+            <div class="right floated content">
+              <button class="ui icon button" type="submit">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                <i class="yellow star icon"></i>
+              </button>
+            </div>
+            </form>
+            <div class="left floated content">
+              <i class="utensils icon"></i>
+              <a href="/recipe/{{ recipe.id }}">{{ recipe.recipe_name }}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
 </div>
 
 {% endblock %}

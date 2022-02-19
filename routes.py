@@ -75,9 +75,9 @@ def new_recipe():
             return render_template("new_recipe.html", message="Täytä vaadittavat kohdat")
         if recipe.add_recipe(recipe_name, recipe_type, ingredients, description, prep_time):
             return redirect("/")
-        return render_template("/new_recipe.html", message="Jokin meni pieleen, yritä uudelleen!")
+        return render_template("new_recipe.html", message="Jokin meni pieleen, yritä uudelleen!")
     else:
-        return render_template("/new_recipe.html", message="Lisääminen ei onnistunut")
+        return render_template("new_recipe.html", message="Lisääminen ei onnistunut")
 
 @app.route("/search/<string:key>", methods=["GET", "POST"])
 def search(key):
@@ -95,6 +95,8 @@ def recipe_id(id):
 def all_recipes(sortby):
     def check_like(recipe_id):
         return recipe.is_liked(recipe_id)
+    def check_favourite(recipe_id):
+        return recipe.is_favourite(recipe_id)
     if sortby == "alphabetically":
         recipes = recipe.get_sorted_alphabetically()
     if sortby == "newest":
@@ -111,7 +113,7 @@ def all_recipes(sortby):
         recipes = recipe.get_desserts()
     if sortby == "other":
         recipes = recipe.get_others()
-    return render_template("all_recipes.html", recipes=recipes, loggedIn=user.isLoggedIn(), check_like=check_like)
+    return render_template("all_recipes.html", recipes=recipes, loggedIn=user.isLoggedIn(), check_like=check_like, check_favourite=check_favourite)
 
 @app.route("/like", methods=["POST"])
 def like_recipe():
@@ -130,4 +132,42 @@ def remove_like():
         if recipe.remove_like(recipe_id):
             recipe.unlike_recipe(recipe_id)
         return redirect("/all-recipes/alphabetically")
-    
+
+@app.route("/favourite", methods=["POST"])
+def add_favourite():
+    if request.method == "POST":
+        user.check_csrf()
+        recipe_id = int(request.form["recipe_id"])
+        recipe.add_favourite(recipe_id)
+        return redirect("/all-recipes/alphabetically")
+
+@app.route("/remove-favourite/1", methods=["POST"])
+def remove_favourite1():
+    if request.method == "POST":
+        user.check_csrf()
+        recipe_id = int(request.form["recipe_id"])
+        recipe.remove_favourite(recipe_id)
+        return redirect("/all-recipes/alphabetically")
+
+@app.route("/remove-favourite/2", methods=["POST"])
+def remove_favourite2():
+    if request.method == "POST":
+        user.check_csrf()
+        recipe_id = int(request.form["recipe_id"])
+        recipe.remove_favourite(recipe_id)
+        return redirect("/favourites")
+
+@app.route("/favourites", methods=["GET", "POST"])
+def show_favourites():
+    if request.method == "GET":
+        recipes = recipe.get_all()
+        favs = []
+        for i in recipes:
+            if recipe.is_favourite(i.id):
+                favs.append(i)
+        return render_template("favourites.html", favs=favs)
+
+    if request.method == "POST":
+        user.check_csrf()
+        recipe_id = int(request.form["recipe_id"])
+        recipe.remove_favourite(recipe_id)

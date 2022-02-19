@@ -1,5 +1,7 @@
 DROP TABLE users CASCADE;
 DROP TABLE recipes CASCADE;
+DROP TABLE likes CASCADE;
+DROP TABLE favourites CASCADE;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -22,6 +24,13 @@ CREATE TABLE likes (
   recipe_id INTEGER REFERENCES recipes,
   visible INTEGER
 );
+
+CREATE TABLE favourites (
+  user_id INTEGER REFERENCES users,
+  recipe_id INTEGER REFERENCES recipes,
+  visible INTEGER
+);
+
 
 -- Adding some recipes into database --
 INSERT INTO recipes (
