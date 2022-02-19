@@ -1,10 +1,10 @@
 from sqlalchemy import true
 from db import db
 
-def add_recipe(recipe_name, recipe_type, ingredients, description):
+def add_recipe(recipe_name, recipe_type, ingredients, description, prep_time):
     try:
-        sql = "INSERT INTO recipes (recipe_name, recipe_type, ingredients, description) VALUES (:recipe_name, :recipe_type, :ingredients, :description)"
-        db.session.execute(sql, {"recipe_name":recipe_name, "recipe_type":recipe_type, "ingredients":ingredients, "description":description})
+        sql = "INSERT INTO recipes (recipe_name, recipe_type, ingredients, description, prep_time) VALUES (:recipe_name, :recipe_type, :ingredients, :description, :prep_time)"
+        db.session.execute(sql, {"recipe_name":recipe_name, "recipe_type":recipe_type, "ingredients":ingredients, "description":description, "prep_time":prep_time})
         db.session.commit()
         return true
     except:
@@ -60,6 +60,12 @@ def get_sorted_newest():
 
 def get_sorted_oldest():
     sql = "SELECT * FROM recipes ORDER BY id DESC"
+    result = db.session.execute(sql)
+    recipes = result.fetchall()
+    return recipes
+
+def get_sorted_quickest():
+    sql = "SELECT * FROM recipes ORDER BY prep_time"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes

@@ -46,11 +46,15 @@
                 <label>Reseptin nimi</label>
                 <input type="text" name="recipe_name" placeholder="Reseptin nimi">
               </div>
-              <div class="six wide required field">
-                <label>Tyyppi</label>
+              <div class="three wide required field">
+                <label>Valmistusaika</label>
+                <input type="text" name="prep_time" placeholder="minuutteina">
+              </div>
+              <div class="three wide required field">
+                <label>Ruokalaji</label>
                 <div class="field">
                   <select class="ui fluid search dropdown" name="recipe_type">
-                    <option value="" disabled selected>Tyyppi</option>
+                    <option value="" disabled selected>Laji</option>
                     <option value="maincourse">Pääruoka</option>
                     <option value="dessert">Jälkiruoka</option>
                     <option value="other">Muu</option>

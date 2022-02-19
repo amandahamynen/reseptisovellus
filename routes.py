@@ -1,7 +1,5 @@
-from crypt import methods
 from flask import render_template, request, redirect
 from app import app
-from app import db
 import user
 import recipe
 
@@ -67,9 +65,15 @@ def new_recipe():
         ingredients = request.form["ingredients"]
         ingredients = [i.strip() for i in ingredients.split("\n") if i.strip() != ""]
         description = request.form["description"]
-        if recipe_name == "" or recipe_type == None or not ingredients:
+        try:
+            prep_time = int(request.form["prep_time"])
+        except ValueError:
+            if recipe_name == "" or recipe_type == None or not ingredients:
+                return render_template("new_recipe.html", message="Täytä vaadittavat kohdat")
+            return render_template("new_recipe.html", message="Valmistusaika tulee ilmoittaa minuutteina")
+        if recipe_name == "" or recipe_type == None or prep_time == "" or not ingredients:
             return render_template("new_recipe.html", message="Täytä vaadittavat kohdat")
-        if recipe.add_recipe(recipe_name, recipe_type, ingredients, description):
+        if recipe.add_recipe(recipe_name, recipe_type, ingredients, description, prep_time):
             return redirect("/")
         return render_template("/new_recipe.html", message="Jokin meni pieleen, yritä uudelleen!")
     else:
@@ -95,6 +99,8 @@ def all_recipes(sortby):
         recipes = recipe.get_sorted_newest()
     if sortby == "oldest":
         recipes = recipe.get_sorted_oldest()
+    if sortby == "fastest":
+        recipes = recipe.get_sorted_quickest()
     if sortby == "maincourse":
         recipes = recipe.get_maincourses()
     if sortby == "dessert":
