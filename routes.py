@@ -61,6 +61,7 @@ def new_recipe():
     if request.method == "GET":
         return render_template("new_recipe.html")
     if request.method == "POST":
+        user.check_csrf()
         recipe_name = request.form["recipe_name"]
         recipe_type = request.form.get("recipe_type")
         ingredients = request.form["ingredients"]

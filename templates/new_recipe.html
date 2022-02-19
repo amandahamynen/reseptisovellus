@@ -69,6 +69,7 @@
             <button class="ui button" type="submit">
                 Lisää resepti
             </button>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         </form>
 
         {% if message %}
