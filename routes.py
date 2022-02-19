@@ -93,6 +93,8 @@ def recipe_id(id):
 
 @app.route("/all-recipes/<string:sortby>", methods=["GET", "POST"])
 def all_recipes(sortby):
+    def check_like(recipe_id):
+        return recipe.is_liked(recipe_id)
     if sortby == "alphabetically":
         recipes = recipe.get_sorted_alphabetically()
     if sortby == "newest":
@@ -101,11 +103,31 @@ def all_recipes(sortby):
         recipes = recipe.get_sorted_oldest()
     if sortby == "fastest":
         recipes = recipe.get_sorted_quickest()
+    if sortby == "popularity":
+        recipes = recipe.get_sorted_popularity()
     if sortby == "maincourse":
         recipes = recipe.get_maincourses()
     if sortby == "dessert":
         recipes = recipe.get_desserts()
     if sortby == "other":
         recipes = recipe.get_others()
-    return render_template("all_recipes.html", recipes=recipes, loggedIn=user.isLoggedIn())
+    return render_template("all_recipes.html", recipes=recipes, loggedIn=user.isLoggedIn(), check_like=check_like)
+
+@app.route("/like", methods=["POST"])
+def like_recipe():
+    if request.method == "POST":
+        user.check_csrf()
+        recipe_id = int(request.form["recipe_id"])
+        if recipe.add_like(recipe_id):
+            recipe.like_recipe(recipe_id)
+        return redirect("/all-recipes/alphabetically")
+
+@app.route("/remove-like", methods=["POST"])
+def remove_like():
+    if request.method == "POST":
+        user.check_csrf()
+        recipe_id = int(request.form["recipe_id"])
+        if recipe.remove_like(recipe_id):
+            recipe.unlike_recipe(recipe_id)
+        return redirect("/all-recipes/alphabetically")
     

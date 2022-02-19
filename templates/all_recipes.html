@@ -54,6 +54,9 @@
           <a class="item" href="/all-recipes/fastest">
             Valmistusajan mukaan
           </a>
+          <a class="item" href="/all-recipes/popularity">
+            Suosion mukaan
+          </a>
           <br>
           <div class="header item">Näytä</div>
           <a class="item" href="/all-recipes/maincourse">
@@ -74,19 +77,30 @@
             <div class="ui middle aligned divided list">
               <div class="item">
                 <div class="right floated content">
-                  <div class="ui left labeled button" tabindex="0">
+                  {% if not check_like(recipe.id) %}
+                  <form class="ui left labeled button" action="/like" method="POST">
+                  {% else %}
+                  <form class="ui left labeled button" action="/remove-like" method="POST">
+                  {% endif %}
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                    <input type="hidden" name="recipe_id" value="{{recipe.id}}">
                     <a class="ui basic right pointing label">
-                      0
+                      {{ recipe.likes }}
                     </a>
                     {% if loggedIn %}
-                    <div class="ui button">
-                      <i class="red heart icon" onclick="functionToLike()"></i>
-                    {% else %}
-                    <div class="ui disabled button">
+                    <button class="ui button" type="submit">
+                      {% if not check_like(recipe.id) %}
                       <i class="heart icon"></i>
+                      {% else %}
+                      <i class="red heart icon"></i>
+                      {% endif %}
+                    </button>
+                    {% else %}
+                    <button class="ui disabled button">
+                      <i class="heart icon"></i>
+                    </button>
                     {% endif %}
-                    </div>
-                  </div>
+                  </form>
                   {% if loggedIn %}
                   <button class="ui icon button">
                     <i class="star icon"></i>
@@ -96,6 +110,7 @@
                 <div class="left floated content">
                   <i class="utensils icon"></i>
                   <a href="/recipe/{{ recipe.id }}">{{ recipe.recipe_name }}</a>
+                  ({{ recipe.prep_time }} min)
                 </div>
               </div>
             </div>
