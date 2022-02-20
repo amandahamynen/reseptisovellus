@@ -65,6 +65,7 @@ def new_recipe():
         ingredients = request.form["ingredients"]
         ingredients = [i.strip() for i in ingredients.split("\n") if i.strip() != ""]
         description = request.form["description"]
+        description = [i.strip() for i in description.split("\n") if i.strip() != ""]
         try:
             prep_time = int(request.form["prep_time"])
         except ValueError:
@@ -89,7 +90,8 @@ def recipe_id(id):
     recipe_name = recipe.get_recipe_name(id)
     ingredients = recipe.get_ingredients(id)
     description = recipe.get_description(id)
-    return render_template("recipe.html", id=id, recipe_name=recipe_name, ingredients=ingredients, description=description)
+    prep_time = recipe.get_prep_time(id)
+    return render_template("recipe.html", id=id, recipe_name=recipe_name, ingredients=ingredients, description=description, prep_time=prep_time)
 
 @app.route("/all-recipes/<string:sortby>", methods=["GET", "POST"])
 def all_recipes(sortby):
@@ -122,7 +124,7 @@ def like_recipe():
         recipe_id = int(request.form["recipe_id"])
         if recipe.add_like(recipe_id):
             recipe.like_recipe(recipe_id)
-        return redirect("/all-recipes/alphabetically")
+        return redirect("/all-recipes/popularity")
 
 @app.route("/remove-like", methods=["POST"])
 def remove_like():
@@ -131,7 +133,7 @@ def remove_like():
         recipe_id = int(request.form["recipe_id"])
         if recipe.remove_like(recipe_id):
             recipe.unlike_recipe(recipe_id)
-        return redirect("/all-recipes/alphabetically")
+        return redirect("/all-recipes/popularity")
 
 @app.route("/favourite", methods=["POST"])
 def add_favourite():
@@ -139,7 +141,7 @@ def add_favourite():
         user.check_csrf()
         recipe_id = int(request.form["recipe_id"])
         recipe.add_favourite(recipe_id)
-        return redirect("/all-recipes/alphabetically")
+        return redirect("/all-recipes/popularity")
 
 @app.route("/remove-favourite/1", methods=["POST"])
 def remove_favourite1():
@@ -147,7 +149,7 @@ def remove_favourite1():
         user.check_csrf()
         recipe_id = int(request.form["recipe_id"])
         recipe.remove_favourite(recipe_id)
-        return redirect("/all-recipes/alphabetically")
+        return redirect("/all-recipes/popularity")
 
 @app.route("/remove-favourite/2", methods=["POST"])
 def remove_favourite2():

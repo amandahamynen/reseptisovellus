@@ -6,7 +6,7 @@
       <a class="ui item" href="/">
         Etusivu
       </a>
-      <a class="ui item" href="/all-recipes/alphabetically">
+      <a class="ui item" href="/all-recipes/popularity">
         Kaikki reseptit
       </a>
       {% if session.username %}
@@ -45,13 +45,24 @@
 
     <div class="ui raised text container segment">
       <h1 class="ui center aligned icon header">
-          {{ recipe_name }}
+        {{ recipe_name }}
       </h1>
-      {% for ingredient in ingredients %}
-      <p>{{ ingredient }}</p>
-      {% endfor %}
+      <h3 class="ui center aligned sub header">
+        {{ prep_time }} min
+      </h3>
+      <div class="ui list" style="text-align: left;">
+        <h3>Ainesosat</h3>
+        {% for ingredient in ingredients %}
+        <div class="item">{{ingredient}}</div>
+        {% endfor %}
+      </div>
       <br>
-      {{ description }}
+      <div class="ui list" style="text-align: left;">
+        <h3>Ohje</h3>
+        {% for i in description %}
+        <div class="item">{{i}}</div>
+        {% endfor %}
+      </div>
       
 </div>
 

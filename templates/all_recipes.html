@@ -6,7 +6,7 @@
       <a class="ui item" href="/">
         Etusivu
       </a>
-      <a class="ui item" href="/all-recipes/alphabetically">
+      <a class="ui item" href="/all-recipes/popularity">
         Kaikki reseptit
       </a>
       {% if session.username %}
@@ -47,6 +47,9 @@
       <div class="four wide column" style="padding-left: 10em;">
         <div class="ui vertical text menu">
           <div class="header item">Järjestä</div>
+          <a class="item" href="/all-recipes/popularity">
+            Suosion mukaan
+          </a>
           <a class="item" href="/all-recipes/alphabetically">
             Aakkosjärjestys
           </a>
@@ -58,9 +61,6 @@
           </a>
           <a class="item" href="/all-recipes/fastest">
             Valmistusajan mukaan
-          </a>
-          <a class="item" href="/all-recipes/popularity">
-            Suosion mukaan
           </a>
           <br>
           <div class="header item">Näytä</div>

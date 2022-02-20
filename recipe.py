@@ -47,6 +47,12 @@ def get_description(id):
     description = result.fetchone()[0]
     return description
 
+def get_prep_time(id):
+    sql = "SELECT prep_time FROM recipes WHERE id=:id"
+    result = db.session.execute(sql, {"id": id})
+    description = result.fetchone()[0]
+    return description
+
 def get_sorted_alphabetically():
     sql = "SELECT * FROM recipes ORDER BY recipe_name"
     result = db.session.execute(sql)
