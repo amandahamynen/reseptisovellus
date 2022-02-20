@@ -17,18 +17,22 @@ Kuka tahansa pystyy...
   - [ ] ainesosan perusteella
   - [ ] reseptin lisääjän käyttäjänimen perusteella
 - lajitella näytettävät reseptit...
-  - [ ] suosion mukaan
+  - [x] aakkosjärjestyksen mukaan
+  - [x] suosion mukaan
   - [ ] arvosteluiden mukaan
-  - [ ] lisäysajan mukaan
-  - [ ] reseptin valmistusajan mukaan
+  - [x] lisäysajan mukaan
+  - [x] reseptin valmistusajan mukaan
+  - [x] ruokalajin perusteella
+- nähdä, kuinka monta tykkäystä reseptillä on
   
 Kirjautunut käyttäjä pystyy...
 - [x] lisätä uuden reseptin
 - [x] kirjautua ulos käyttäjältä
 - [ ] kommentoimaan muita reseptejä
 - [ ] arvostelemaan reseptejä asteikolla 1-5
-- [ ] lisätä reseptejä omiin suosikkeihin
+- [x] lisätä reseptejä omiin suosikkeihin
 - [ ] pystyy muokata omia reseptejä
+- [x] tykätä reseptistä
 
 Ylläpitäjä pystyy...
 - [ ] poistamaan reseptin sivustolta
