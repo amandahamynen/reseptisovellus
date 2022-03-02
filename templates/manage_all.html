@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% block title %} <title>Reseptisovellus</title> {% endblock %}
+{% block content %}
+<div class="ui vertical masthead center aligned segment">
+    <div class="ui large secondary pointing menu" id="menu">
+        <a class="ui item" href="/">
+          Etusivu
+        </a>
+        <a class="ui item" href="/all-recipes/popularity">
+          Kaikki reseptit
+        </a>
+        {% if session.username %}
+        <a class="ui item" href="/new_recipe">
+          Lisää uusi resepti
+        </a>
+        {% endif %}
+        {% if session.username %}
+        <a class="ui item" href="/favourites">
+          Omat suosikit
+        </a>
+        {% endif %}
+        <div class="right menu">
+          {% if session.role == 2 %}
+        <a class="ui item" href="/manage-all">
+          Hallinnoi
+        </a>
+        {% endif %}
+          {% if session.username %}
+          <a class="ui item">
+            <i class="user icon"></i>
+            {{session.username}}
+          </a>
+          <a class="ui red button" href="/logout">
+            Kirjaudu ulos
+          </a>
+          {% endif %}
+          {% if not session.username %}
+          <a class="ui item" href="/login">
+            Kirjaudu sisään
+          </a>
+          <a class="ui item" href="/register">
+            Rekisteröidy
+          </a>
+          {% endif %}
+        </div>
+      </div>
+  
+      <div class="ui text container" id="user_form">
+        <h2 class="ui center aligned icon header">
+          Näkyvät reseptit
+        </h2>
+        <br>
+        {% if recipes %}
+          {% for recipe in recipes %}
+          <div class="ui middle aligned divided list">
+            <div class="item">
+              <form action="/hide-recipe" method="POST" style="display: inline;">
+              <div class="right floated content">
+                <button class="ui icon button" type="submit">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                    <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                    <i class="trash icon"></i>
+                </button>
+              </div>
+              </form>
+                
+              <div class="left floated content">
+                <i class="utensils icon"></i>
+                <a href="/recipe/{{ recipe.id }}">{{ recipe.recipe_name }}</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
+        <h2 class="ui center aligned icon header">
+          Piilotetut reseptit
+        </h2>
+        <br>
+        {% if hidden %}
+          {% for recipe in hidden %}
+          <div class="ui middle aligned divided list">
+            <div class="item">
+              <form action="/return-recipe" method="POST" style="display: inline;">
+              <div class="right floated content">
+                <button class="ui icon button" type="submit">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                    <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                    <i class="redo icon"></i>
+                </button>
+              </div>
+              </form>
+                
+              <div class="left floated content">
+                <i class="utensils icon"></i>
+                <a href="/recipe/{{ recipe.id }}">{{ recipe.recipe_name }}</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
+        <h2 class="ui center aligned icon header">
+            Käyttäjät
+          </h2>
+          <br>
+          {% if users %}
+          {% for user in users %}
+          <div class="ui middle aligned divided list">
+            <div class="item">
+              <!--<div class="right floated content">
+                <i class="trash icon"></i>
+              </div>-->
+              <div class="left floated content">
+                <i class="user icon"></i>
+                {{ user.username }}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+  </div>
+{% endblock %}

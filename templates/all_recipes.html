@@ -20,6 +20,11 @@
       </a>
       {% endif %}
       <div class="right menu">
+        {% if session.role == 2 %}
+        <a class="ui item" href="/manage-all">
+          Hallinnoi
+        </a>
+        {% endif %}
         {% if session.username %}
         <a class="ui item">
           <i class="user icon"></i>

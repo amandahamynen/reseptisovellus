@@ -4,7 +4,7 @@ from flask import session
 
 def add_recipe(recipe_name, recipe_type, ingredients, description, prep_time):
     try:
-        sql = "INSERT INTO recipes (recipe_name, recipe_type, ingredients, description, prep_time, likes) VALUES (:recipe_name, :recipe_type, :ingredients, :description, :prep_time, 0)"
+        sql = "INSERT INTO recipes (recipe_name, recipe_type, ingredients, description, prep_time, likes, visible) VALUES (:recipe_name, :recipe_type, :ingredients, :description, :prep_time, 0, 1)"
         db.session.execute(sql, {"recipe_name":recipe_name, "recipe_type":recipe_type, "ingredients":ingredients, "description":description, "prep_time":prep_time})
         db.session.commit()
         return true
@@ -12,13 +12,13 @@ def add_recipe(recipe_name, recipe_type, ingredients, description, prep_time):
         return False
 
 def get_all():
-    sql = "SELECT * FROM recipes"
+    sql = "SELECT * FROM recipes WHERE visible=1"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
 
 def search(key):
-    sql = "SELECT * FROM recipes WHERE (recipe_name ILIKE :key)"
+    sql = "SELECT * FROM recipes WHERE (recipe_name ILIKE :key AND visible=1)"
     result = db.session.execute(sql, {"key":"%" + key + "%"})
     recipes = result.fetchall()
     return recipes
@@ -54,49 +54,49 @@ def get_prep_time(id):
     return description
 
 def get_sorted_alphabetically():
-    sql = "SELECT * FROM recipes ORDER BY recipe_name"
+    sql = "SELECT * FROM recipes WHERE visible=1 ORDER BY recipe_name"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
 
 def get_sorted_newest():
-    sql = "SELECT * FROM recipes ORDER BY id DESC"
+    sql = "SELECT * FROM recipes WHERE visible=1 ORDER BY id DESC"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
 
 def get_sorted_oldest():
-    sql = "SELECT * FROM recipes ORDER BY id"
+    sql = "SELECT * FROM recipes WHERE visible=1 ORDER BY id"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
 
 def get_sorted_quickest():
-    sql = "SELECT * FROM recipes ORDER BY prep_time"
+    sql = "SELECT * FROM recipes WHERE visible=1 ORDER BY prep_time"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
 
 def get_sorted_popularity():
-    sql = "SELECT * FROM recipes ORDER BY likes DESC"
+    sql = "SELECT * FROM recipes WHERE visible=1 ORDER BY likes DESC"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
 
 def get_maincourses():
-    sql = "SELECT * FROM recipes WHERE recipe_type='maincourse'"
+    sql = "SELECT * FROM recipes WHERE recipe_type='maincourse' AND visible=1"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
 
 def get_desserts():
-    sql = "SELECT * FROM recipes WHERE recipe_type='dessert'"
+    sql = "SELECT * FROM recipes WHERE recipe_type='dessert' AND visible=1"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
 
 def get_others():
-    sql = "SELECT * FROM recipes WHERE recipe_type='other'"
+    sql = "SELECT * FROM recipes WHERE recipe_type='other' AND visible=1"
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
@@ -200,3 +200,53 @@ def is_favourite(recipe_id):
             return False
     except:
         return False
+
+def hide_recipe(recipe_id):
+    try:
+        role = session["role"]
+
+        def check_if_already_in_table():
+            sql = "SELECT COUNT(*) FROM recipes WHERE id=:recipe_id AND visible=1"
+            result = db.session.execute(sql, {"recipe_id": recipe_id}).fetchone()[0]
+            return result
+
+        if role == 2:
+            if check_if_already_in_table():
+                sql = "UPDATE recipes SET visible=0 WHERE id=:recipe_id"
+                db.session.execute(sql, {"recipe_id": recipe_id})
+                db.session.commit()
+                return True
+            else:
+                return False
+        else:
+            return False
+    except:
+        return False
+
+def return_recipe(recipe_id):
+    try:
+        role = session["role"]
+
+        def check_if_already_in_table():
+            sql = "SELECT COUNT(*) FROM recipes WHERE id=:recipe_id AND visible=0"
+            result = db.session.execute(sql, {"recipe_id": recipe_id}).fetchone()[0]
+            return result
+
+        if role == 2:
+            if check_if_already_in_table():
+                sql = "UPDATE recipes SET visible=1 WHERE id=:recipe_id"
+                db.session.execute(sql, {"recipe_id": recipe_id})
+                db.session.commit()
+                return True
+            else:
+                return False
+        else:
+            return False
+    except:
+        return False
+
+def get_hidden():
+    sql = "SELECT * FROM recipes WHERE visible=0"
+    result = db.session.execute(sql)
+    recipes = result.fetchall()
+    return recipes

@@ -173,3 +173,29 @@ def show_favourites():
         user.check_csrf()
         recipe_id = int(request.form["recipe_id"])
         recipe.remove_favourite(recipe_id)
+
+@app.route("/manage-all", methods=["GET", "POST"])
+def manage_all():
+    user.require_role(2)
+    recipes = recipe.get_all()
+    hidden_recipes = recipe.get_hidden()
+    users = user.get_all()
+    return render_template("manage_all.html", recipes=recipes, users=users, hidden=hidden_recipes)
+
+@app.route("/hide-recipe", methods=["POST"])
+def hide():
+    user.require_role(2)
+    if request.method == "POST":
+        user.check_csrf()
+        recipe_id = int(request.form["recipe_id"])
+        recipe.hide_recipe(recipe_id)
+        return redirect("/manage-all")
+
+@app.route("/return-recipe", methods=["POST"])
+def return_recipe():
+    user.require_role(2)
+    if request.method == "POST":
+        user.check_csrf()
+        recipe_id = int(request.form["recipe_id"])
+        recipe.return_recipe(recipe_id)
+        return redirect("/manage-all")
