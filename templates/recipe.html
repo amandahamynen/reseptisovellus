@@ -44,8 +44,11 @@
     <br>
 
     <h1 class="ui center aligned icon header">
-      {{ recipe_name }} ({{ prep_time }} min)
+      {{ recipe_name }}
     </h1>
+    <h3 class="ui center alignes sub header">
+      {{ prep_time }} min, tekijä: {{ creator }}
+    </h3>
 
     <div class="ui grid" id="recipe_form">
     <div class="ten wide column" style="padding-left: 10em; overflow-y: auto; overflow-x: auto; max-height: 35em;">

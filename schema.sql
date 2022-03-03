@@ -20,7 +20,8 @@ CREATE TABLE recipes (
   description TEXT[],
   prep_time INTEGER,
   likes INTEGER,
-  visible INTEGER
+  visible INTEGER,
+  creator INTEGER REFERENCES users
 );
 
 CREATE TABLE likes (
@@ -73,7 +74,8 @@ INSERT INTO recipes (
   description,
   prep_time,
   likes,
-  visible
+  visible,
+  creator
 ) VALUES (
   'Mokkapalat',
   'dessert',
@@ -81,7 +83,8 @@ INSERT INTO recipes (
   '{Katso ohje osoitteesta https://www.k-ruoka.fi/reseptit/mokkapalat}',
   45,
   0,
-  1
+  1,
+  0
 );
 
 INSERT INTO recipes (
@@ -91,7 +94,8 @@ INSERT INTO recipes (
   description,
   prep_time,
   likes,
-  visible
+  visible,
+  creator
 ) VALUES (
   'Kalakeitto',
   'maincourse',
@@ -99,7 +103,8 @@ INSERT INTO recipes (
   '{Katso ohje osoitteesta https://www.valio.fi/reseptit/kalakeitto/}',
   45,
   0,
-  1
+  1,
+  0
 );
 
 INSERT INTO recipes (
@@ -109,7 +114,8 @@ INSERT INTO recipes (
   description,
   prep_time,
   likes,
-  visible
+  visible,
+  creator
 ) VALUES (
   'Pannari',
   'dessert',
@@ -117,7 +123,8 @@ INSERT INTO recipes (
   '{Katso ohje osoitteesta https://www.valio.fi/reseptit/pannari-1/}',
   50,
   0,
-  1
+  1,
+  0
 );
 
 INSERT INTO recipes (
@@ -127,7 +134,8 @@ INSERT INTO recipes (
   description,
   prep_time,
   likes,
-  visible
+  visible,
+  creator
 ) VALUES (
   'Mangorahkapiirakka',
   'dessert',
@@ -135,7 +143,8 @@ INSERT INTO recipes (
   '{Katso ohje osoitteesta https://www.valio.fi/reseptit/mangorahkapiirakka/}',
   60,
   0,
-  1
+  1,
+  0
 );
 
 INSERT INTO recipes (
@@ -145,7 +154,8 @@ INSERT INTO recipes (
   description,
   prep_time,
   likes,
-  visible
+  visible,
+  creator
 ) VALUES (
   'Riisipuuro',
   'other',
@@ -153,7 +163,8 @@ INSERT INTO recipes (
   '{Katso ohje osoitteesta https://www.valio.fi/reseptit/riisipuuro-kermalla/}',
   40,
   0,
-  1
+  1,
+  0
 );
 
 INSERT INTO recipes (
@@ -163,7 +174,8 @@ INSERT INTO recipes (
   description,
   prep_time,
   likes,
-  visible
+  visible,
+  creator
 ) VALUES (
   'Kanaquesadilla',
   'other',
@@ -171,7 +183,8 @@ INSERT INTO recipes (
   '{Katso ohje osoitteesta https://www.valio.fi/reseptit/kanaquesadilla-uunissa/}',
   25,
   0,
-  1
+  1,
+  0
 );
 
 INSERT INTO recipes (
@@ -181,7 +194,8 @@ INSERT INTO recipes (
   description,
   prep_time,
   likes,
-  visible
+  visible,
+  creator
 ) VALUES (
   'Lohta ja pastaa',
   'maincourse',
@@ -189,5 +203,6 @@ INSERT INTO recipes (
   '{Katso ohje osoitteesta https://www.valio.fi/reseptit/lohta-ja-pastaa/}',
   30,
   0,
-  1
+  1,
+  0
 );

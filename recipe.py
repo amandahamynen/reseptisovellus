@@ -4,8 +4,9 @@ from flask import session
 
 def add_recipe(recipe_name, recipe_type, ingredients, description, prep_time):
     try:
-        sql = "INSERT INTO recipes (recipe_name, recipe_type, ingredients, description, prep_time, likes, visible) VALUES (:recipe_name, :recipe_type, :ingredients, :description, :prep_time, 0, 1)"
-        db.session.execute(sql, {"recipe_name":recipe_name, "recipe_type":recipe_type, "ingredients":ingredients, "description":description, "prep_time":prep_time})
+        user_id = session["user_id"]
+        sql = "INSERT INTO recipes (recipe_name, recipe_type, ingredients, description, prep_time, likes, visible, creator) VALUES (:recipe_name, :recipe_type, :ingredients, :description, :prep_time, 0, 1, :user_id)"
+        db.session.execute(sql, {"recipe_name":recipe_name, "recipe_type":recipe_type, "ingredients":ingredients, "description":description, "prep_time":prep_time, "user_id":user_id})
         db.session.commit()
         return true
     except:
@@ -18,8 +19,8 @@ def get_all():
     return recipes
 
 def search(key):
-    sql = "SELECT * FROM recipes WHERE (recipe_name ILIKE :key AND visible=1)"
-    result = db.session.execute(sql, {"key":"%" + key + "%"})
+    sql = "SELECT DISTINCT recipes.id, recipes.recipe_name FROM recipes, users WHERE (users.username ILIKE :name_key AND users.id=recipes.creator AND recipes.visible=1) OR (recipe_name ILIKE :key AND recipes.visible=1)"
+    result = db.session.execute(sql, {"name_key":key+"%", "key":"%" + key + "%"})
     recipes = result.fetchall()
     return recipes
 
@@ -52,6 +53,12 @@ def get_prep_time(id):
     result = db.session.execute(sql, {"id": id})
     description = result.fetchone()[0]
     return description
+
+def get_creator(id):
+    sql = "SELECT users.username FROM recipes, users WHERE recipes.creator=users.id AND recipes.id=:id"
+    result = db.session.execute(sql, {"id": id})
+    creator = result.fetchone()[0]
+    return creator
 
 def get_sorted_alphabetically():
     sql = "SELECT * FROM recipes WHERE visible=1 ORDER BY recipe_name"

@@ -92,7 +92,8 @@ def recipe_id(id):
     description = recipe.get_description(id)
     prep_time = recipe.get_prep_time(id)
     comments = recipe.get_comments(id)
-    return render_template("recipe.html", id=id, recipe_name=recipe_name, ingredients=ingredients, description=description, prep_time=prep_time, comments=comments)
+    creator = recipe.get_creator(id)
+    return render_template("recipe.html", id=id, recipe_name=recipe_name, ingredients=ingredients, description=description, prep_time=prep_time, comments=comments, creator=creator)
 
 @app.route("/all-recipes/<string:sortby>", methods=["GET", "POST"])
 def all_recipes(sortby):
