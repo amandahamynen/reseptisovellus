@@ -43,27 +43,64 @@
     <br>
     <br>
 
-    <div class="ui raised text container segment">
-      <h1 class="ui center aligned icon header">
-        {{ recipe_name }}
-      </h1>
-      <h3 class="ui center aligned sub header">
-        {{ prep_time }} min
-      </h3>
-      <div class="ui list" style="text-align: left;">
+    <h1 class="ui center aligned icon header">
+      {{ recipe_name }} ({{ prep_time }} min)
+    </h1>
+
+    <div class="ui grid" id="recipe_form">
+    <div class="ten wide column" style="padding-left: 10em; overflow-y: auto; overflow-x: auto; max-height: 35em;">
+
+      <div class="ui list" style="text-align: left; max-width: 90%;">
         <h3>Ainesosat</h3>
         {% for ingredient in ingredients %}
         <div class="item">{{ingredient}}</div>
         {% endfor %}
       </div>
       <br>
-      <div class="ui list" style="text-align: left;">
+      <div class="ui list" style="text-align: left; max-width: 100%;">
         <h3>Ohje</h3>
         {% for i in description %}
         <div class="item">{{i}}</div>
         {% endfor %}
       </div>
-      
-</div>
+      </div>
 
+      <div class="six wide column" style="padding-right: 10em; overflow-y: auto; max-height: 35em;">
+      <div class="ui comments" style="text-align: left;" >
+        <h3 class="ui dividing header">Kommentit</h3>
+  
+        {% if comments %}
+        {% for comment in comments %}
+        <div class="comment">
+          <div class="content">
+            <a class="author">{{comment[0]}}</a>
+            <div class="metadata">
+              <span class="date">{{ comment[2].strftime("%d.%m.%Y %H:%M") }}</span>
+            </div>
+            <div class="text" style="max-width: 100%;">
+              <p>{{ comment[1]}}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if session.username %}
+        <form class="ui reply form" action="/add-comment" method="POST">
+          <div class="field">
+            <textarea name="comment"></textarea>
+          </div>
+          <button class="ui blue labeled submit icon button" type="submit">
+            <i class="icon edit"></i> Lisää kommentti
+          </button>
+          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+          <input type="hidden" name="recipe_id" value="{{id}}">
+        </form>
+        {% endif %}
+      </div>
+      </div>
+
+    </div>
+   
+</div>
 {% endblock %}

@@ -2,6 +2,8 @@ DROP TABLE users CASCADE;
 DROP TABLE recipes CASCADE;
 DROP TABLE likes CASCADE;
 DROP TABLE favourites CASCADE;
+DROP TABLE comments CASCADE;
+DROP TABLE ratings CASCADE;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -31,6 +33,21 @@ CREATE TABLE favourites (
   user_id INTEGER REFERENCES users,
   recipe_id INTEGER REFERENCES recipes,
   visible INTEGER
+);
+
+CREATE TABLE comments (
+  id SERIAL PRIMARY KEY,
+  recipe_id INTEGER REFERENCES recipes,
+  creator INTEGER REFERENCES users,
+  comment TEXT,
+  created_at TIMESTAMPTZ,
+  visible INTEGER
+);
+
+CREATE TABLE ratings (
+  id SERIAL PRIMARY KEY,
+  recipe_id INTEGER REFERENCES recipes,
+  user_id INTEGER REFERENCES users
 );
 
 -- Adding admin into database --

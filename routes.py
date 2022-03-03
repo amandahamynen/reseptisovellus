@@ -91,7 +91,8 @@ def recipe_id(id):
     ingredients = recipe.get_ingredients(id)
     description = recipe.get_description(id)
     prep_time = recipe.get_prep_time(id)
-    return render_template("recipe.html", id=id, recipe_name=recipe_name, ingredients=ingredients, description=description, prep_time=prep_time)
+    comments = recipe.get_comments(id)
+    return render_template("recipe.html", id=id, recipe_name=recipe_name, ingredients=ingredients, description=description, prep_time=prep_time, comments=comments)
 
 @app.route("/all-recipes/<string:sortby>", methods=["GET", "POST"])
 def all_recipes(sortby):
@@ -199,3 +200,10 @@ def return_recipe():
         recipe_id = int(request.form["recipe_id"])
         recipe.return_recipe(recipe_id)
         return redirect("/manage-all")
+
+@app.route("/add-comment", methods=["POST"])
+def add_comment():
+    recipe_id = request.form["recipe_id"]
+    comment = request.form["comment"]
+    recipe.add_comment(recipe_id, comment)
+    return redirect(f"/recipe/{recipe_id}")

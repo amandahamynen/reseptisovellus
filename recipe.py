@@ -250,3 +250,18 @@ def get_hidden():
     result = db.session.execute(sql)
     recipes = result.fetchall()
     return recipes
+
+def get_comments(recipe_id):
+    sql = "SELECT users.username, comments.comment, comments.created_at, comments.id FROM users, comments WHERE users.id=comments.creator AND comments.recipe_id=:recipe_id AND comments.visible=1 ORDER BY comments.created_at"
+    comments = db.session.execute(sql, {"recipe_id": recipe_id}).fetchall()
+    return comments
+
+def add_comment(recipe_id, comment):
+    try:
+        user_id = session["user_id"]
+        sql = "INSERT INTO comments (recipe_id, creator, comment, created_at, visible) VALUES (:recipe_id, :creator, :comment, NOW(), 1)"
+        db.session.execute(sql, {"recipe_id": recipe_id, "creator": user_id, "comment": comment})
+        db.session.commit()
+        return True
+    except:
+        return False
