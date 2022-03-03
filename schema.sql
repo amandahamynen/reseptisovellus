@@ -48,7 +48,8 @@ CREATE TABLE comments (
 CREATE TABLE ratings (
   id SERIAL PRIMARY KEY,
   recipe_id INTEGER REFERENCES recipes,
-  user_id INTEGER REFERENCES users
+  user_id INTEGER REFERENCES users,
+  rating INTEGER
 );
 
 -- Adding admin into database --

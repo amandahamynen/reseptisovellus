@@ -272,3 +272,26 @@ def add_comment(recipe_id, comment):
         return True
     except:
         return False
+
+def rate(recipe_id, rating):
+    try:
+        user_id = session["user_id"]
+        sql = "INSERT INTO ratings (recipe_id, user_id, rating) VALUES (:recipe_id, :user_id, :rating)"
+        db.session.execute(sql, {"recipe_id":recipe_id, "user_id":user_id, "rating":rating})
+        db.session.commit()
+        return True
+    except:
+        return False
+
+def calculate_rating(recipe_id):
+    try:
+        sql = "SELECT ROUND(AVG(rating), 1) FROM ratings WHERE recipe_id=:recipe_id"
+        average = db.session.execute(sql, {"recipe_id": recipe_id}).fetchone()[0]
+        return average
+    except:
+        return 0
+
+def count_ratings(recipe_id):
+    sql = "SELECT COUNT(*) FROM ratings WHERE recipe_id=:recipe_id"
+    count = db.session.execute(sql, {"recipe_id":recipe_id}).fetchone()[0]
+    return count

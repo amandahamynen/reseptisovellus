@@ -46,8 +46,11 @@
     <h1 class="ui center aligned icon header">
       {{ recipe_name }}
     </h1>
-    <h3 class="ui center alignes sub header">
-      {{ prep_time }} min, tekijä: {{ creator }}
+    <h3 class="ui center aligned sub header" style="margin-top: -5px;">
+      Arvosteluita annettu {{ how_many_ratings }} kpl{% if rating %}, keskiarvo: {{ rating }}/5.0 {% endif %}
+    </h3>
+    <h3 class="ui center aligned sub header" style="margin-top: 0px;">
+      Kesto: {{ prep_time }} min, tekijä: {{ creator }}
     </h3>
 
     <div class="ui grid" id="recipe_form">
@@ -69,6 +72,28 @@
       </div>
 
       <div class="six wide column" style="padding-right: 10em; overflow-y: auto; max-height: 35em;">
+
+        {% if session.username %}
+        <form action="/add-rating" method="POST">
+
+        <!-- https://codepen.io/sidbelbase/pen/RwGZRbL lähde alla olevalle koodille -->
+
+        <ul class="rate-area">
+          <input type="radio" id="5-star" name="rating" value="5" /><label for="5-star" title="Amazing">5 stars</label>
+          <input type="radio" id="4-star" name="rating" value="4" /><label for="4-star" title="Good">4 stars</label>
+          <input type="radio" id="3-star" name="rating" value="3" /><label for="3-star" title="Average">3 stars</label>
+          <input type="radio" id="2-star" name="rating" value="2" /><label for="2-star" title="Not Good">2 stars</label>
+          <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" title="Bad">1 star</label>
+        </ul>
+
+        <!-- the end -->
+
+        <input type="hidden" name="recipe_id" value="{{id}}">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <button class="ui basic button" type="submit">Arvostele</button>
+        </form>
+        {% endif %}
+
       <div class="ui comments" style="text-align: left;" >
         <h3 class="ui dividing header">Kommentit</h3>
   

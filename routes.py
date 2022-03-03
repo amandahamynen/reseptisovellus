@@ -93,7 +93,9 @@ def recipe_id(id):
     prep_time = recipe.get_prep_time(id)
     comments = recipe.get_comments(id)
     creator = recipe.get_creator(id)
-    return render_template("recipe.html", id=id, recipe_name=recipe_name, ingredients=ingredients, description=description, prep_time=prep_time, comments=comments, creator=creator)
+    rating = recipe.calculate_rating(id)
+    how_many_ratings = recipe.count_ratings(id)
+    return render_template("recipe.html", id=id, recipe_name=recipe_name, ingredients=ingredients, description=description, prep_time=prep_time, comments=comments, creator=creator, rating=rating, how_many_ratings=how_many_ratings)
 
 @app.route("/all-recipes/<string:sortby>", methods=["GET", "POST"])
 def all_recipes(sortby):
@@ -207,4 +209,13 @@ def add_comment():
     recipe_id = request.form["recipe_id"]
     comment = request.form["comment"]
     recipe.add_comment(recipe_id, comment)
+    return redirect(f"/recipe/{recipe_id}")
+
+@app.route("/add-rating", methods=["POST"])
+def add_rating():
+    recipe_id = request.form["recipe_id"]
+    rating = request.form.get("rating")
+    if rating == None:
+        return redirect(f"/recipe/{recipe_id}")
+    recipe.rate(recipe_id, rating)
     return redirect(f"/recipe/{recipe_id}")
