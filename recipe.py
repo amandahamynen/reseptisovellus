@@ -276,10 +276,21 @@ def add_comment(recipe_id, comment):
 def rate(recipe_id, rating):
     try:
         user_id = session["user_id"]
-        sql = "INSERT INTO ratings (recipe_id, user_id, rating) VALUES (:recipe_id, :user_id, :rating)"
-        db.session.execute(sql, {"recipe_id":recipe_id, "user_id":user_id, "rating":rating})
-        db.session.commit()
-        return True
+        def check_if_user_already_rated():
+            sql = "SELECT COUNT(*) FROM ratings WHERE user_id=:user_id and recipe_id=:recipe_id"
+            result = db.session.execute(sql, {"user_id": user_id, "recipe_id":recipe_id}).fetchone()[0]
+            return result
+        is_rated = check_if_user_already_rated()
+        if is_rated == 0:
+            sql = "INSERT INTO ratings (recipe_id, user_id, rating) VALUES (:recipe_id, :user_id, :rating)"
+            db.session.execute(sql, {"recipe_id":recipe_id, "user_id":user_id, "rating":rating})
+            db.session.commit()
+            return True
+        else:
+            sql = "UPDATE ratings SET rating=:rating WHERE user_id=:user_id AND recipe_id=:recipe_id"
+            result = db.session.execute(sql, {"rating":rating, "user_id": user_id, "recipe_id":recipe_id})
+            db.session.commit()
+            return True
     except:
         return False
 

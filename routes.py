@@ -103,6 +103,8 @@ def all_recipes(sortby):
         return recipe.is_liked(recipe_id)
     def check_favourite(recipe_id):
         return recipe.is_favourite(recipe_id)
+    def get_rating(recipe_id):
+        return recipe.calculate_rating(recipe_id)
     if sortby == "alphabetically":
         recipes = recipe.get_sorted_alphabetically()
     if sortby == "newest":
@@ -119,7 +121,7 @@ def all_recipes(sortby):
         recipes = recipe.get_desserts()
     if sortby == "other":
         recipes = recipe.get_others()
-    return render_template("all_recipes.html", recipes=recipes, loggedIn=user.isLoggedIn(), check_like=check_like, check_favourite=check_favourite)
+    return render_template("all_recipes.html", recipes=recipes, loggedIn=user.isLoggedIn(), check_like=check_like, check_favourite=check_favourite, get_rating=get_rating)
 
 @app.route("/like", methods=["POST"])
 def like_recipe():

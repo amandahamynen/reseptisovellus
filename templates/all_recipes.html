@@ -84,7 +84,7 @@
         <div class="ui text container">
           {% if recipes %}
             {% for recipe in recipes %}
-            <div class="ui middle aligned divided list">
+            <div class="ui list">
               <div class="item">
                 <div class="right floated content">
                   {% if not check_like(recipe.id) %}
@@ -131,9 +131,17 @@
                   {% endif %}
                   {% endif %}
                 </div>
-                <div class="left floated content">
-                  <i class="utensils icon"></i>
-                  <a href="/recipe/{{ recipe.id }}">{{ recipe.recipe_name }}</a>
+                <div class="left floated content" style="text-align: left;">
+                  <div class="item">
+                    <div class="content">
+                      <a class="header" href="/recipe/{{ recipe.id }}" style="display: inline; text-align: left;">{{ recipe.recipe_name }}</a>
+                      {% if get_rating(recipe.id) != None %}
+                      <div class="description">{{get_rating(recipe.id)}}/5.0</div>
+                      {% else %}
+                      <div class="description">Ei vielä arvosteluita</div>
+                      {% endif %}
+                    </div>
+                  </div>  
                 </div>
               </div>
             </div>
