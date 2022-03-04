@@ -28,11 +28,33 @@ def register():
             return render_template("/register.html", message="Käyttäjätunnus on liian pitkä")
         if password != re_password:
             return render_template("/register.html", message="Salasanat eivät vastanneet toisiaan")
-        if user.register(username, password):
+        if user.register(username, password, 1):
             if user.login(username, password):
                 return redirect("/")
         else:
             return render_template("/register.html", message="Rekisteröinti ei onnistunut")
+
+@app.route("/register_admin", methods=["GET", "POST"])
+def register_admin():
+    if user.isLoggedIn():
+        return redirect("/")
+    if request.method == "GET":
+        return render_template("register_admin.html")
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        re_password = request.form["re_password"]
+        if username == "" or password == "":
+            return render_template("/register_admin.html", message="Kenttää ei voi jättää tyhjäksi")
+        if len(username) > 30:
+            return render_template("/register_admin.html", message="Käyttäjätunnus on liian pitkä")
+        if password != re_password:
+            return render_template("/register_admin.html", message="Salasanat eivät vastanneet toisiaan")
+        if user.register(username, password, 2):
+            if user.login(username, password):
+                return redirect("/")
+        else:
+            return render_template("/register_admin.html", message="Rekisteröinti ei onnistunut")
     
 
 @app.route("/login", methods=["GET", "POST"])

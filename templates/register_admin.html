@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block title %} <title>Rekisteröinti</title> {% endblock %}
+{% block content %}
+
+    <div class="ui vertical masthead center aligned segment">
+
+      <div class="ui large secondary pointing menu" id="menu">
+        <a class="ui item" href="/">
+          Etusivu
+        </a>
+        <a class="ui item" href="/all-recipes/popularity">
+          Kaikki reseptit
+        </a>
+        <div class="right menu">
+          {% if session.username %}
+          <a class="ui item" href="/logout">
+            Kirjaudu ulos
+          </a>
+          {% endif %}
+          {% if not session.username %}
+          <a class="ui item" href="/login">
+            Kirjaudu sisään
+          </a>
+          <a class="ui item" href="/register">
+            Rekisteröidy
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+        <div class="ui text container" id="user_form">
+            <div class="ui middle aligned center aligned grid">
+                <div class="column">
+                  <h2 class="ui orange image header">
+                    <i class="key icon"></i>
+                    <div class="content">
+                      Rekisteröi uusi ylläpitäjä
+                    </div>
+                  </h2>
+
+                  <form class="ui large form" action="/register_admin" method="POST">
+                    <div class="ui raised segment">
+                    <div class="field">
+                      <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="username" placeholder="Käyttäjänimi">
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="Salasana">
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="re_password" placeholder="Salasana uudelleen">
+                      </div>
+                    </div>
+                    <button class="ui orange button" type="submit" id='Register'>Rekisteröidy</button>
+                    </div>
+                  </form>
+              
+                  <div class="ui message">
+                    On jo olemassa käyttäjä? <a href="/login">Kirjaudu sisään!</a>
+                  </div>
+
+                  {% if message %}
+                    <div class="ui error message">Virhe: {{message}}</div>
+                  {% endif %}
+
+                </div>
+              </div>
+        </div>
+
+    </div>
+
+{% endblock %}
