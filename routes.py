@@ -24,6 +24,8 @@ def register():
         re_password = request.form["re_password"]
         if username == "" or password == "":
             return render_template("/register.html", message="Kenttää ei voi jättää tyhjäksi")
+        if len(username) > 30:
+            return render_template("/register.html", message="Käyttäjätunnus on liian pitkä")
         if password != re_password:
             return render_template("/register.html", message="Salasanat eivät vastanneet toisiaan")
         if user.register(username, password):
@@ -74,6 +76,8 @@ def new_recipe():
             return render_template("new_recipe.html", message="Valmistusaika tulee ilmoittaa minuutteina")
         if recipe_name == "" or recipe_type == None or prep_time == "" or not ingredients:
             return render_template("new_recipe.html", message="Täytä vaadittavat kohdat")
+        if len(recipe_name) > 40:
+             return render_template("new_recipe.html", message="Reseptin nimi on liian pitkä")
         if recipe.add_recipe(recipe_name, recipe_type, ingredients, description, prep_time):
             return redirect("/")
         return render_template("new_recipe.html", message="Jokin meni pieleen, yritä uudelleen!")
