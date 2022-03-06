@@ -5,8 +5,10 @@ from flask import session
 def add_recipe(recipe_name, recipe_type, ingredients, description, prep_time):
     try:
         user_id = session["user_id"]
-        sql = "INSERT INTO recipes (recipe_name, recipe_type, ingredients, description, prep_time, likes, visible, creator) VALUES (:recipe_name, :recipe_type, :ingredients, :description, :prep_time, 0, 1, :user_id)"
-        db.session.execute(sql, {"recipe_name":recipe_name, "recipe_type":recipe_type, "ingredients":ingredients, "description":description, "prep_time":prep_time, "user_id":user_id})
+        sql = """INSERT INTO recipes (recipe_name, recipe_type, ingredients, description, prep_time, likes, visible, creator) 
+                 VALUES (:recipe_name, :recipe_type, :ingredients, :description, :prep_time, 0, 1, :user_id)"""
+        db.session.execute(sql, {"recipe_name":recipe_name, "recipe_type":recipe_type, "ingredients":ingredients, 
+                                 "description":description, "prep_time":prep_time, "user_id":user_id})
         db.session.commit()
         return true
     except:
@@ -19,7 +21,9 @@ def get_all():
     return recipes
 
 def search(key):
-    sql = "SELECT DISTINCT recipes.id, recipes.recipe_name FROM recipes, users WHERE (users.username ILIKE :name_key AND users.id=recipes.creator AND recipes.visible=1) OR (recipe_name ILIKE :key AND recipes.visible=1)"
+    sql = """SELECT DISTINCT recipes.id, recipes.recipe_name FROM recipes, users 
+             WHERE (users.username ILIKE :name_key AND users.id=recipes.creator 
+             AND recipes.visible=1) OR (recipe_name ILIKE :key AND recipes.visible=1)"""
     result = db.session.execute(sql, {"name_key":key+"%", "key":"%" + key + "%"})
     recipes = result.fetchall()
     return recipes
@@ -55,7 +59,8 @@ def get_prep_time(id):
     return description
 
 def get_creator(id):
-    sql = "SELECT users.username FROM recipes, users WHERE recipes.creator=users.id AND recipes.id=:id"
+    sql = """SELECT users.username FROM recipes, users 
+             WHERE recipes.creator=users.id AND recipes.id=:id"""
     result = db.session.execute(sql, {"id": id})
     creator = result.fetchone()[0]
     return creator
@@ -131,7 +136,8 @@ def add_like(recipe_id):
         user_id = session["user_id"]
 
         def check_if_already_in_table():
-            sql = "SELECT COUNT(*) FROM likes WHERE user_id=:user_id AND recipe_id=:recipe_id AND visible=0"
+            sql = """SELECT COUNT(*) FROM likes WHERE user_id=:user_id 
+                     AND recipe_id=:recipe_id AND visible=0"""
             result = db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id}).fetchone()[0]
             return result
 
@@ -158,7 +164,8 @@ def remove_like(recipe_id):
 def is_liked(recipe_id):
     try:
         user_id = session["user_id"]
-        sql = "SELECT COUNT(*) FROM likes WHERE user_id=:user_id AND recipe_id=:recipe_id AND visible=1"
+        sql = """SELECT COUNT(*) FROM likes 
+                 WHERE user_id=:user_id AND recipe_id=:recipe_id AND visible=1"""
         result = db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id}).fetchone()[0]
         if result:
             return True
@@ -172,14 +179,16 @@ def add_favourite(recipe_id):
         user_id = session["user_id"]
 
         def check_if_already_in_table():
-            sql = "SELECT COUNT(*) FROM favourites WHERE user_id=:user_id AND recipe_id=:recipe_id AND visible=0"
+            sql = """SELECT COUNT(*) FROM favourites 
+                     WHERE user_id=:user_id AND recipe_id=:recipe_id AND visible=0"""
             result = db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id}).fetchone()[0]
             return result
 
         if check_if_already_in_table():
             sql = "UPDATE favourites SET visible = 1 WHERE user_id=:user_id AND recipe_id=:recipe_id"
         else:
-            sql = "INSERT INTO favourites (user_id, recipe_id, visible) VALUES (:user_id, :recipe_id, 1)"
+            sql = """INSERT INTO favourites (user_id, recipe_id, visible) 
+                  VALUES (:user_id, :recipe_id, 1)"""
         db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id})
         db.session.commit()
         return True
@@ -199,7 +208,8 @@ def remove_favourite(recipe_id):
 def is_favourite(recipe_id):
     try:
         user_id = session["user_id"]
-        sql = "SELECT COUNT(*) FROM favourites WHERE user_id=:user_id AND recipe_id=:recipe_id AND visible=1"
+        sql = """SELECT COUNT(*) FROM favourites 
+                 WHERE user_id=:user_id AND recipe_id=:recipe_id AND visible=1"""
         result = db.session.execute(sql, {"user_id": user_id, "recipe_id": recipe_id}).fetchone()[0]
         if result:
             return True
@@ -259,14 +269,17 @@ def get_hidden():
     return recipes
 
 def get_comments(recipe_id):
-    sql = "SELECT users.username, comments.comment, comments.created_at, comments.id FROM users, comments WHERE users.id=comments.creator AND comments.recipe_id=:recipe_id AND comments.visible=1 ORDER BY comments.created_at"
+    sql = """SELECT users.username, comments.comment, comments.created_at, comments.id 
+             FROM users, comments WHERE users.id=comments.creator AND comments.recipe_id=:recipe_id 
+             AND comments.visible=1 ORDER BY comments.created_at"""
     comments = db.session.execute(sql, {"recipe_id": recipe_id}).fetchall()
     return comments
 
 def add_comment(recipe_id, comment):
     try:
         user_id = session["user_id"]
-        sql = "INSERT INTO comments (recipe_id, creator, comment, created_at, visible) VALUES (:recipe_id, :creator, :comment, NOW(), 1)"
+        sql = """INSERT INTO comments (recipe_id, creator, comment, created_at, visible) 
+              VALUES (:recipe_id, :creator, :comment, NOW(), 1)"""
         db.session.execute(sql, {"recipe_id": recipe_id, "creator": user_id, "comment": comment})
         db.session.commit()
         return True
